@@ -2,11 +2,11 @@
 torch>=2.5.0
 torchvision>=0.15.2
 pillow==10.4.0
-pandas==2.1.0
+pandas==2.2.3
 numpy>=1.26.0           
 matplotlib==3.7.2
 seaborn==0.12.2
-scikit-learn==1.4.0
+scikit-learn==1.6.0
 opencv-python-headless==4.8.0.76
 tqdm==4.65.0
 plotly==5.15.0
