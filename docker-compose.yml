@@ -1,0 +1,26 @@
+﻿
+version: '3.8'
+
+services:
+  skin-lesion-app:
+    build: .
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+    environment:
+      - STREAMLIT_SERVER_PORT=8501
+      - STREAMLIT_SERVER_ADDRESS=0.0.0.0
+    restart: unless-stopped
+
+  # Optional: Add a model training service
+  model-trainer:
+    build: .
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+      - ./notebooks:/app/notebooks
+    command: python train.py --metadata_path data/HAM10000_metadata.csv --image_dirs data/ham10000_images_part_1 data/ham10000_images_part_2
+    profiles:
+      - training
