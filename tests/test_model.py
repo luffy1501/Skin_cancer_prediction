@@ -1,1 +1,2 @@
-﻿def test_forward():\n    assert True
+﻿def test_forward():
+    assert True
