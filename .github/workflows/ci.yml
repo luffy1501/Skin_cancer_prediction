@@ -9,41 +9,49 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.9'
-        
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        
-    - name: Run tests
-      run: |
-        python -m pytest tests/
-        
-    - name: Check code style
-      run: |
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+
+      - name: 📦 Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest flake8
+
+      - name: 🧪 Run tests
+        run: |
+          python -m pytest tests/
+
+      - name: 🧼 Lint code
+        run: |
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
 
   build-and-deploy:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    
+
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Build Docker image
-      run: |
-        docker build -t skin-lesion-classifier .
-        
-    - name: Deploy to production
-      run: |
-        echo "Deploy to your preferred platform"
-        # Add your deployment commands here
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🐳 Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: skin-lesion-classifier:latest
+
+      - name: 🚀 Deploy
+        run: |
+          echo "✅ Docker image built. Add deployment commands here."
+          # Example:
+          # scp -i key.pem docker-image.tar user@server:/path
+          # ssh user@server 'docker load < docker-image.tar && docker-compose up -d'
