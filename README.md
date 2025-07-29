@@ -1,6 +1,3 @@
-﻿Here's your updated project README content with the website link included:
-
----
 
 # 🔬 Skin Lesion Classifier
 
